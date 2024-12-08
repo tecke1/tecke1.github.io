@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centered Buttons</title>
+  <title>Custom Image Buttons with Glow</title>
   <style>
     body {
       display: flex;
@@ -11,37 +11,84 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background-color: #f4f4f4;
+      background-color: #000;
       font-family: Arial, sans-serif;
+      color: #fff;
     }
     .button-container {
       display: flex;
+      gap: 30px;
+    }
+    .button-wrapper {
+      display: flex;
       flex-direction: column;
-      gap: 20px;
+      align-items: center;
     }
     .button {
-      padding: 15px 30px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #007BFF;
+      width: 100px;
+      height: 100px;
+      background-color: #333;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       border: none;
-      border-radius: 5px;
-      text-align: center;
-      text-decoration: none;
+      border-radius: 15px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 15px;
+      box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.2);
+      filter: blur(15px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
     }
     .button:hover {
-      background-color: #0056b3;
+      transform: scale(1.1);
+    }
+    .button:hover::before {
+      opacity: 1;
+    }
+    .button-label {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="button-container">
-    <a href="https://example.com/1" class="button">Button 1</a>
-    <a href="https://example.com/2" class="button">Button 2</a>
-    <a href="https://example.com/3" class="button">Button 3</a>
-    <a href="https://example.com/4" class="button">Button 4</a>
+    <div class="button-wrapper">
+      <a href="https://google.com" class="button" data-image="https://t4.ftcdn.net/jpg/03/91/79/25/360_F_391792593_BYfEk8FhvfNvXC5ERCw166qRFb8mYWya.jpg"></a>
+      <div class="button-label">Google</div>
+    </div>
+    <div class="button-wrapper">
+      <a href="https://faceit.com" class="button" data-image="https://play-lh.googleusercontent.com/4iFS-rI0ImIFZyTwjidPChDOTUGxZqX2sCBLRsf9g_noMIUnH9ywsCmCzSu9vSM9Jg"></a>
+      <div class="button-label">FACEIT</div>
+    </div>
+    <div class="button-wrapper">
+      <a href="https://cybershoke.net" class="button" data-image="https://yt3.googleusercontent.com/kxR0kXV-oNEc55iV-WN7d9pvWWembMRTKIRLXBkOdkC4QYdTW-nhytO8htTHhf62LbrCuFztmA=s900-c-k-c0x00ffffff-no-rj"></a>
+      <div class="button-label">CYBERSHOKE</div>
+    </div>
+    <div class="button-wrapper">
+      <a href="https://faceitanalyser.com/" class="button" data-image="https://pbs.twimg.com/profile_images/1301159738126802944/FJ-1kEZB_400x400.jpg"></a>
+      <div class="button-label">Analyser</div>
+    </div>
   </div>
+  <script>
+    // Установка фонового изображения для каждой кнопки
+    document.querySelectorAll('.button').forEach(button => {
+      const imageUrl = button.getAttribute('data-image');
+      button.style.backgroundImage = `url(${imageUrl})`;
+    });
+  </script>
 </body>
 </html>
