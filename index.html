@@ -1,94 +1,238 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Image Buttons with Glow</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #000;
-      font-family: Arial, sans-serif;
-      color: #fff;
-    }
-    .button-container {
-      display: flex;
-      gap: 30px;
-    }
-    .button-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .button {
-      width: 100px;
-      height: 100px;
-      background-color: #333;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      position: relative;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 15px;
-      box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.2);
-      filter: blur(15px);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: -1;
-    }
-    .button:hover {
-      transform: scale(1.1);
-    }
-    .button:hover::before {
-      opacity: 1;
-    }
-    .button-label {
-      margin-top: 10px;
-      font-size: 14px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="button-container">
-    <div class="button-wrapper">
-      <a href="https://google.com" class="button" data-image="https://t4.ftcdn.net/jpg/03/91/79/25/360_F_391792593_BYfEk8FhvfNvXC5ERCw166qRFb8mYWya.jpg"></a>
-      <div class="button-label">Google</div>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>tecke1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+      * { margin: 0; padding: 0; }
+      html, body { 
+        background-color: black; /* Начальный черный фон */
+        width: 100%; 
+        height: 100%; 
+        overflow-x: hidden; 
+        opacity: 1;
+      }
+      .main-container {
+        position: relative; /* Основной контейнер с партиклами */
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Партекли */
+      #tsparticles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0;
+        animation: fadeInParticles 2s forwards;
+      }
+      
+      @keyframes fadeInParticles {
+        0% {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* Контейнеры для кнопок и текста */
+      .top-container, .bottom-container {
+        width: 100%;
+        height: 10%; /* Верхний и нижний контейнеры занимают 10% высоты */
+        display: flex;
+        justify-content: center; /* Выравнивание элементов по центру */
+        align-items: center;
+        opacity: 0;
+        position: relative;
+        animation: fadeIn 0.8s 0.5s forwards;
+      }
+
+      /* Средний контейнер занимает оставшуюся 80% */
+      .middle-container {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        opacity: 0;
+        animation: fadeIn 0.8s 0.5s forwards;
+      }
+
+      /* Стиль для текстовых кнопок */
+      .text-button {
+        position: relative;
+        color: white;
+        font-size: 18px;
+        text-decoration: none;
+        display: inline-block;
+        padding: 10px 10px;
+        border-radius: 0px;
+        background-color: transparent;
+        overflow: hidden;
+        transition: transform 0.2s ease, background-color 0.3s ease;
+      }
+
+      /* Псевдоэлементы для анимации полоски */
+      .text-button::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 10px;
+        background-color: white;
+        border-radius: 10px;
+        transition: width 0.4s ease;
+      }
+
+      .text-button:hover::after {
+        width: auto;
+      }
+
+      /* Убираем синий цвет при наведении */
+      .text-button:hover {
+        color: rgba(255, 255, 255, 0.76); /* Оставляем белый цвет текста */
+      }
+
+      .text-button span {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Контейнер с кнопками */
+      .btn-group {
+        display: flex;
+        gap: 20px; /* Промежуток между кнопками */
+      }
+
+      /* Кнопка с изображением */
+      .btn-custom {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        background-color: #29292933;
+        border: 2px solid transparent;
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        border-radius: 16px;
+      }
+
+      .btn-container:hover .btn-custom {
+        box-shadow: 0px 0px 20px rgba(190, 190, 190, 0.6);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .btn-custom img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .btn-text {
+        position: absolute;
+        top: 110%;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        opacity: 0;
+        color: white;
+        font-size: 18px;
+        text-align: center;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      .btn-container:hover .btn-text {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .btn-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        margin-right: 10px; /* Отступ между кнопками */
+      }
+
+      /* Анимация появления кнопок */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          background-color: black;
+        }
+        100% {
+          opacity: 1;
+          background-color: transparent;
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <!-- Партекли -->
+      <div id="tsparticles"></div>
+
+      <!-- Контейнер для кнопки подключения -->
+      <div class="top-container">
+        <a href="steam://connect/cs2.altside.xyz" class="text-button">
+          <span>practice</span>
+        </a>
+      </div>
+
+      <!-- Контейнер с кнопками -->
+      <div class="middle-container">
+        <div class="btn-group">
+          <div class="btn-container">
+            <a href="https://www.google.com" class="btn-custom">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="Google">
+            </a>
+            <span class="btn-text">Google</span>
+          </div>
+          <div class="btn-container">
+            <a href="https://cybershoke.net" class="btn-custom">
+              <img src="https://cloud.cybershoke.net/img/general/cybershoke.svg" alt="Cybershoke">
+            </a>
+            <span class="btn-text">CYBERSHOKE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Контейнер снизу -->
+      <div class="bottom-container">
+        <a href="https://github.com/tecke1" class="text-button">
+          <span>dev by @tecke1</span>
+        </a>
+      </div>
     </div>
-    <div class="button-wrapper">
-      <a href="https://faceit.com" class="button" data-image="https://play-lh.googleusercontent.com/4iFS-rI0ImIFZyTwjidPChDOTUGxZqX2sCBLRsf9g_noMIUnH9ywsCmCzSu9vSM9Jg"></a>
-      <div class="button-label">FACEIT</div>
-    </div>
-    <div class="button-wrapper">
-      <a href="https://cybershoke.net" class="button" data-image="https://yt3.googleusercontent.com/kxR0kXV-oNEc55iV-WN7d9pvWWembMRTKIRLXBkOdkC4QYdTW-nhytO8htTHhf62LbrCuFztmA=s900-c-k-c0x00ffffff-no-rj"></a>
-      <div class="button-label">CYBERSHOKE</div>
-    </div>
-    <div class="button-wrapper">
-      <a href="https://faceitanalyser.com/" class="button" data-image="https://play-lh.googleusercontent.com/4iFS-rI0ImIFZyTwjidPChDOTUGxZqX2sCBLRsf9g_noMIUnH9ywsCmCzSu9vSM9Jg"></a>
-      <div class="button-label">Analyser</div>
-    </div>
-  </div>
-  <script>
-    // Установка фонового изображения для каждой кнопки
-    document.querySelectorAll('.button').forEach(button => {
-      const imageUrl = button.getAttribute('data-image');
-      button.style.backgroundImage = `url(${imageUrl})`;
-    });
-  </script>
-</body>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/preset-stars@3.2.0/tsparticles.preset.stars.bundle.min.js"></script>
+    <script type="text/javascript">
+        (async (engine) => {
+            await loadStarsPreset(engine);
+
+            await engine.load({ id: "tsparticles", options: { preset: "stars" } });
+        })(tsParticles);
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  </body>
 </html>
